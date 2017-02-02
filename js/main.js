@@ -60,6 +60,14 @@ xhr.addEventListener("readystatechange",function(){
                     for(var i = 0;i<=str.length-1;i++){
                         if(str[i].id === target.id){
                             //DELETE request
+                            var deleteXhr = new XMLHttpRequest();
+                                deleteXhr.open("DELETE",'/user?id='+target.id+'');
+                                deleteXhr.addEventListener("readystatechange",function(){
+                                    if(deleteXhr.readyState != 4 && deleteXhr.status != 200){
+                                        return;
+                                    }
+                                });
+                                deleteXhr.send();
                         }
                     }
                 });
