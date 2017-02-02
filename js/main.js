@@ -16,13 +16,23 @@ xhr.addEventListener("readystatechange",function(){
             userNameField = document.createElement("td"),
             shortInfo = document.createElement("td"),
             professionField = document.createElement("td"),
-            removeField = document.createElement("td");
+            removeField = document.createElement("td")
+            btnRemove = document.createElement("BUTTON"),
+            btnEdit = document.createElement("BUTTON");
+
+        btnRemove.innerText="Remove";
+        btnEdit.innerText = "Edit";
+        btnRemove.setAttribute("id",str[i].id);
+        btnEdit.setAttribute("id",str[i].id);
 
 
         userNameField.innerText = str[i].fullName;
         shortInfo.innerText =  str[i].shortInfo;
         professionField.innerText =  str[i].profession;
-        removeField.innerHTML = '<button type="click" class="btn" name="btn">Remove</button><br /><br /><button type="click"  class="btn" name="btn">Edit</button>';
+        //removeField.innerHTML = '<button type="click" class="btn" name="btn">Remove</button><br /><br /><button type="click"  class="btn" name="btn">Edit</button>';
+
+        removeField.appendChild(btnRemove);
+        removeField.appendChild(btnEdit);
 
         newTr.appendChild(userNameField);
         newTr.appendChild(professionField);
@@ -36,26 +46,18 @@ xhr.addEventListener("readystatechange",function(){
         var target = e.target;
 
         if(target.innerText === "Remove"){
+
             var innerXhr = new XMLHttpRequest();
                 innerXhr.open("GET","/user");
                 innerXhr.addEventListener("readystatechange",function(){
-                    if(innerXhr.readyState != 4){
+
+                    if(innerXhr.readyState != 4 && innerXhr.status != 200){
                         return;
                     }
 
-                    var str = JSON.parse(innerXhr.responseText);
-                    var name = target.parentElement.parentElement.firstChild.innerHTML;
+                   // var str = JSON.parse(innerXhr.responseText);
 
-                    //console.log();
-
-                    for(var j = 0;j<=str.length-1;j++){
-                        if(str[i].fullName === name){
-                            console.log(str[i].id);
-                        }
-                    }
-
-
-
+                    console.log(delete);
                 });
                 innerXhr.send();
         }
