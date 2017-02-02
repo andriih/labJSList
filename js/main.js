@@ -66,6 +66,7 @@ xhr.addEventListener("readystatechange",function(){
                                     if(deleteXhr.readyState != 4 && deleteXhr.status != 200){
                                         return;
                                     }
+                                    target.parentElement.parentElement.remove();
                                 });
                                 deleteXhr.send();
                         }
