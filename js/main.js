@@ -55,9 +55,13 @@ xhr.addEventListener("readystatechange",function(){
                         return;
                     }
 
-                   // var str = JSON.parse(innerXhr.responseText);
+                   var str = JSON.parse(innerXhr.responseText);
 
-                    console.log(delete);
+                    for(var i = 0;i<=str.length-1;i++){
+                        if(str[i].id === target.id){
+                            //DELETE request
+                        }
+                    }
                 });
                 innerXhr.send();
         }
