@@ -122,7 +122,7 @@ xhr.addEventListener("readystatechange",function(){
         e.preventDefault();
         var newUser = {
             id: "",
-            fullname: fullname.value ,
+            fullName: fullname.value ,
             birthday:  birthday.value,
             profession: profession.value,
             address:  address.value,
@@ -135,7 +135,7 @@ xhr.addEventListener("readystatechange",function(){
         console.log(str);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST",str);
+        xhr.open("POST","/user");
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.addEventListener("readystatechange",function(){
             if(xhr.readyState != 4){
@@ -143,9 +143,8 @@ xhr.addEventListener("readystatechange",function(){
             }
 
 
-
         });
-        xhr.send();
+        xhr.send(str);
     });
 
     btnCancel.addEventListener("click",function () {
