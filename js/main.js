@@ -97,7 +97,7 @@ xhr.addEventListener("readystatechange",function(){
         birthday.value = "";
         profession.value = "";
         address.value = "";
-        country.value = "";
+        //country.value = "";
         shortInfo.value = "";
         fullInfo.value = "";
 
@@ -130,21 +130,30 @@ xhr.addEventListener("readystatechange",function(){
             shortInfo: shortIinfo.value,
             fullInfo: fullInfo.value
         };
+        if(fullname.value != "" &&
+        birthday.value != "" &&
+        profession.value != "" &&
+        address.value != "" &&
+        //country.value != "";
+        fullInfo.value != ""){
+            var str = JSON.stringify(newUser);
+            console.log(str);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/user");
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.addEventListener("readystatechange",function(){
+                if(xhr.readyState != 4){
+                    return;
+                }
+            });
+            xhr.send(str);
 
-        var str = JSON.stringify(newUser);
-        console.log(str);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST","/user");
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.addEventListener("readystatechange",function(){
-            if(xhr.readyState != 4){
-                return;
-            }
+            form.reset();
+        }else{
+            e.preventDefault();
+        }
 
 
-        });
-        xhr.send(str);
     });
 
     btnCancel.addEventListener("click",function () {
