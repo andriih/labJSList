@@ -1,5 +1,17 @@
-var table =  document.getElementById("users-table");
- var xhr = new XMLHttpRequest();
+var table =  document.getElementById("users-table")
+    create = document.getElementById("create"),
+    form = document.forms[0]
+        fullName = form.elements.fullName,
+        birthday = form.elements.birthday,
+        profession = form.elements.profession,
+        address = form.elements.address,
+        country = form.elements.country,
+        shortIinfo = form.elements.short-info,
+        fullInfo = form.elements.full-info,
+        btnSave = document.querySelector(".btn-save"),
+        btnCancel = document.querySelector(".btn-cancel");
+
+var xhr = new XMLHttpRequest();
 
 xhr.open("GET","/user");
 
@@ -51,7 +63,7 @@ xhr.addEventListener("readystatechange",function(){
                 innerXhr.open("GET","/user");
                 innerXhr.addEventListener("readystatechange",function(){
 
-                    if(innerXhr.readyState != 4 && innerXhr.status != 200){
+                    if(innerXhr.readyState != 4){
                         return;
                     }
 
@@ -67,7 +79,10 @@ xhr.addEventListener("readystatechange",function(){
                                         return;
                                     }
                                     target.parentElement.parentElement.remove();
+                                    //target.parentElement.parentElement.parentElement.removeChild( target.parentElement.parentElement );
+
                                 });
+
                                 deleteXhr.send();
                         }
                     }
@@ -75,5 +90,11 @@ xhr.addEventListener("readystatechange",function(){
                 innerXhr.send();
         }
     });
+
+    create.addEventListener("click",function(){
+        form.classList.remove("users-edit-hidden");
+
+    });
+
 });
 xhr.send();
