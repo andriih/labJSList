@@ -1,7 +1,7 @@
 var table =  document.getElementById("users-table")
     create = document.getElementById("create"),
-    form = document.forms[0]
-        fullName = form.elements.fullName,
+    form = document.forms[0],
+        fullname = form.elements.fullname,
         birthday = form.elements.birthday,
         profession = form.elements.profession,
         address = form.elements.address,
@@ -92,47 +92,47 @@ xhr.addEventListener("readystatechange",function(){
 
     create.addEventListener("click",function(){
         form.classList.remove("users-edit-hidden");
-        //console.log(fullName.value);
-        fullName.value = "";
+        fullname.value = "";
         birthday.value = "";
         profession.value = "";
         address.value = "";
         country.value = "";
-        shortIinfo.value = "";
+        shortInfo.value = "";
         fullInfo.value = "";
+
+        var
 
         });
     form.addEventListener("submit",function(e){
+        console.log(fullname.value);
         e.preventDefault();
-        if(fullName.value===""){
-            e.preventDefault();
-        }
-        console.log(fullName.value);
-        // var newUser = {
-        //     id: "",
-        //     fullName: fullName.value ,
-        //     birthday:  birthday.value,
-        //     profession: profession.value,
-        //     address:  address.value,
-        //     country: country.value,
-        //     shortInfo: shortIinfo.value,
-        //     fullInfo: fullInfo.value
-        // };
-        //
-        // var str = JSON.stringify(newUser);
-        // console.log(str);
-        //
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("POST",str);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.addEventListener("readystatechange",function(){
-        //     if(xhr.readyState != 4){
-        //         return;
-        //     }
-        //
-        //
-        // });
-        // xhr.send();
+
+        var newUser = {
+            id: "",
+            fullname: fullname.value ,
+            birthday:  birthday.value,
+            profession: profession.value,
+            address:  address.value,
+            country: country.value,
+            shortInfo: shortIinfo.value,
+            fullInfo: fullInfo.value
+        };
+
+        var str = JSON.stringify(newUser);
+        console.log(str);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST",str);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.addEventListener("readystatechange",function(){
+            if(xhr.readyState != 4){
+                return;
+            }
+
+
+
+        });
+        xhr.send();
     });
 
 });
