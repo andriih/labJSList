@@ -30,7 +30,8 @@ xhr.addEventListener("readystatechange",function(){
             professionField = document.createElement("td"),
             removeField = document.createElement("td"),
             btnRemove = document.createElement("BUTTON"),
-            btnEdit = document.createElement("BUTTON");
+            btnEdit = document.createElement("BUTTON"),
+            country = document.getElementById("country");
 
         btnRemove.innerText="Remove";
         btnEdit.innerText = "Edit";
@@ -100,11 +101,25 @@ xhr.addEventListener("readystatechange",function(){
         shortInfo.value = "";
         fullInfo.value = "";
 
-        var
+        var xhr = new XMLHttpRequest();
+            xhr.open("GET","/countries");
+            xhr.addEventListener("readystatechange",function(){
+                if(xhr.readyState != 4){
+                    return;
+                }
+                var str = JSON.parse(xhr.responseText);
 
+                for(var i =0;i<=str.length-1;i++){
+                    var netOption = document.createElement("OPTION");
+                    netOption.innerText = str[i];
+                    country.appendChild(netOption);
+                }
+            });
+            xhr.send();
         });
+
     form.addEventListener("submit",function(e){
-        console.log(fullname.value);
+
         e.preventDefault();
 
         var newUser = {
