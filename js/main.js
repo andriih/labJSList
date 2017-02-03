@@ -119,9 +119,7 @@ xhr.addEventListener("readystatechange",function(){
         });
 
     form.addEventListener("submit",function(e){
-
         e.preventDefault();
-
         var newUser = {
             id: "",
             fullname: fullname.value ,
@@ -148,6 +146,10 @@ xhr.addEventListener("readystatechange",function(){
 
         });
         xhr.send();
+    });
+
+    btnCancel.addEventListener("click",function () {
+        form.classList.add("users-edit-hidden");
     });
 
 });
