@@ -126,8 +126,8 @@ xhr.addEventListener("readystatechange",function(){
             birthday:  birthday.value,
             profession: profession.value,
             address:  address.value,
-            country: country.value,
-            shortInfo: shortIinfo.value,
+            //country: country.value,
+            //shortInfo: shortInfo.value,
             fullInfo: fullInfo.value
         };
         if(fullname.value != "" &&
@@ -147,12 +147,41 @@ xhr.addEventListener("readystatechange",function(){
                 }
             });
             xhr.send(str);
+            /////////////////////////
+            var newTr = document.createElement("tr"),
+                userNameField = document.createElement("td"),
+                shortInfo = document.createElement("td"),
+                professionField = document.createElement("td"),
+                removeField = document.createElement("td"),
+                btnRemove = document.createElement("BUTTON"),
+                btnEdit = document.createElement("BUTTON"),
+                country = document.getElementById("country");
 
+            btnRemove.innerText="Remove";
+            btnEdit.innerText = "Edit";
+            btnRemove.setAttribute("id",str.id);
+            btnEdit.setAttribute("id",str.id);
+
+
+            userNameField.innerText = str.fullName ;
+            shortInfo.innerText =  str.shortInfo;
+            professionField.innerText =  str.profession;
+            //removeField.innerHTML = '<button type="click" class="btn" name="btn">Remove</button><br /><br /><button type="click"  class="btn" name="btn">Edit</button>';
+
+            removeField.appendChild(btnRemove);
+            removeField.appendChild(btnEdit);
+
+            newTr.appendChild(userNameField);
+            newTr.appendChild(professionField);
+            newTr.appendChild(shortInfo);
+            newTr.appendChild(removeField);
+
+            table.appendChild(newTr);
+            /////////////////////////
             form.reset();
         }else{
             e.preventDefault();
         }
-
 
     });
 
