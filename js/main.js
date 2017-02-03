@@ -6,8 +6,8 @@ var table =  document.getElementById("users-table")
         profession = form.elements.profession,
         address = form.elements.address,
         country = form.elements.country,
-        shortIinfo = form.elements.short-info,
-        fullInfo = form.elements.full-info,
+        shortIinfo = document.querySelector("#short-info"),
+        fullInfo = document.querySelector("#full-info"),
         btnSave = document.querySelector(".btn-save"),
         btnCancel = document.querySelector(".btn-cancel");
 
@@ -28,7 +28,7 @@ xhr.addEventListener("readystatechange",function(){
             userNameField = document.createElement("td"),
             shortInfo = document.createElement("td"),
             professionField = document.createElement("td"),
-            removeField = document.createElement("td")
+            removeField = document.createElement("td"),
             btnRemove = document.createElement("BUTTON"),
             btnEdit = document.createElement("BUTTON");
 
@@ -56,7 +56,6 @@ xhr.addEventListener("readystatechange",function(){
 
     table.addEventListener("click",function(e){
         var target = e.target;
-
         if(target.innerText === "Remove"){
 
             var innerXhr = new XMLHttpRequest();
@@ -93,7 +92,47 @@ xhr.addEventListener("readystatechange",function(){
 
     create.addEventListener("click",function(){
         form.classList.remove("users-edit-hidden");
+        //console.log(fullName.value);
+        fullName.value = "";
+        birthday.value = "";
+        profession.value = "";
+        address.value = "";
+        country.value = "";
+        shortIinfo.value = "";
+        fullInfo.value = "";
 
+        });
+    form.addEventListener("submit",function(e){
+        e.preventDefault();
+        if(fullName.value===""){
+            e.preventDefault();
+        }
+        console.log(fullName.value);
+        // var newUser = {
+        //     id: "",
+        //     fullName: fullName.value ,
+        //     birthday:  birthday.value,
+        //     profession: profession.value,
+        //     address:  address.value,
+        //     country: country.value,
+        //     shortInfo: shortIinfo.value,
+        //     fullInfo: fullInfo.value
+        // };
+        //
+        // var str = JSON.stringify(newUser);
+        // console.log(str);
+        //
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("POST",str);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.addEventListener("readystatechange",function(){
+        //     if(xhr.readyState != 4){
+        //         return;
+        //     }
+        //
+        //
+        // });
+        // xhr.send();
     });
 
 });
