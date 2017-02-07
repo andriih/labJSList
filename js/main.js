@@ -56,6 +56,7 @@ xhr.addEventListener("readystatechange",function(){
 
     table.addEventListener("click",function(e){
         var target = e.target;
+        //Remove functionality
         if(target.innerText === "Remove"){
 
             var innerXhr = new XMLHttpRequest();
@@ -87,6 +88,10 @@ xhr.addEventListener("readystatechange",function(){
                     }
                 });
                 innerXhr.send();
+        }
+        //EDIT functionality
+        if(target.innerText === "Edit"){
+            console.log(target.id);
         }
     });
 
@@ -185,6 +190,7 @@ xhr.addEventListener("readystatechange",function(){
     btnCancel.addEventListener("click",function () {
         form.classList.add("users-edit-hidden");
     });
+
 
 });
 xhr.send();
