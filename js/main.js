@@ -6,7 +6,7 @@ var table =  document.getElementById("users-table")
         profession = form.elements.profession,
         address = form.elements.address,
         country = form.elements.country,
-        shortIinfo = document.querySelector("#short-info"),
+        shortInfo = document.querySelector("#short-info"),
         fullInfo = document.querySelector("#full-info"),
         btnSave = document.querySelector(".btn-save"),
         btnCancel = document.querySelector(".btn-cancel");
@@ -42,7 +42,6 @@ xhr.addEventListener("readystatechange",function(){
         userNameField.innerText = str[i].fullName;
         shortInfo.innerText =  str[i].shortInfo;
         professionField.innerText =  str[i].profession;
-        //removeField.innerHTML = '<button type="click" class="btn" name="btn">Remove</button><br /><br /><button type="click"  class="btn" name="btn">Edit</button>';
 
         removeField.appendChild(btnRemove);
         removeField.appendChild(btnEdit);
@@ -93,13 +92,7 @@ xhr.addEventListener("readystatechange",function(){
 
     create.addEventListener("click",function(){
         form.classList.remove("users-edit-hidden");
-        fullname.value = "";
-        birthday.value = "";
-        profession.value = "";
-        address.value = "";
-        //country.value = "";
-        shortInfo.value = "";
-        fullInfo.value = "";
+        form.reset();
 
         var xhr = new XMLHttpRequest();
             xhr.open("GET","/countries");
@@ -120,16 +113,20 @@ xhr.addEventListener("readystatechange",function(){
 
     form.addEventListener("submit",function(e){
         e.preventDefault();
+       var shortInfo2 = document.querySelector("#short-info");
+       var country2 = form.elements.country;
+
         var newUser = {
             id: "",
             fullName: fullname.value ,
             birthday:  birthday.value,
             profession: profession.value,
             address:  address.value,
-            //country: country.value,
-            //shortInfo: shortInfo.value,
+            country: country2.innerHTML,
+            shortInfo: shortInfo2.value,
             fullInfo: fullInfo.value
         };
+
         if(fullname.value != "" &&
         birthday.value != "" &&
         profession.value != "" &&
@@ -148,6 +145,7 @@ xhr.addEventListener("readystatechange",function(){
             });
             xhr.send(str);
             /////////////////////////
+            var json = JSON.parse(str);////PArse json
             var newTr = document.createElement("tr"),
                 userNameField = document.createElement("td"),
                 shortInfo = document.createElement("td"),
@@ -159,14 +157,13 @@ xhr.addEventListener("readystatechange",function(){
 
             btnRemove.innerText="Remove";
             btnEdit.innerText = "Edit";
-            btnRemove.setAttribute("id",str.id);
-            btnEdit.setAttribute("id",str.id);
+            btnRemove.setAttribute("id",json.id);
+            btnEdit.setAttribute("id",json.id);
 
 
-            userNameField.innerText = str.fullName ;
-            shortInfo.innerText =  str.shortInfo;
-            professionField.innerText =  str.profession;
-            //removeField.innerHTML = '<button type="click" class="btn" name="btn">Remove</button><br /><br /><button type="click"  class="btn" name="btn">Edit</button>';
+            userNameField.innerText = json.fullName ;
+            shortInfo.innerText =  json.shortInfo;
+            professionField.innerText =  json.profession;
 
             removeField.appendChild(btnRemove);
             removeField.appendChild(btnEdit);
