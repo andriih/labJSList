@@ -10,7 +10,7 @@ create = document.getElementById("create"),
     fullInfo = document.querySelector("#full-info"),
     btnSave = document.querySelector(".btn-save"),
     btnCancel = document.querySelector(".btn-cancel");
-
+var hiddenIdElement = document.getElementById("id");
 var xhr = new XMLHttpRequest();
 
 xhr.open("GET", "/user");
@@ -112,7 +112,7 @@ xhr.addEventListener("readystatechange", function () {
                             shortInfo.value = objects[i].shortInfo;
                             fullInfo.value = objects[i].fullInfo;
 
-                            var hiddenIdElement = document.getElementById("id");
+
                             hiddenIdElement.setAttribute("id",''+objects[i].id+'');
 
                             //EMPROWMENT
