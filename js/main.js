@@ -138,7 +138,8 @@ xhr.addEventListener("readystatechange", function () {
             profession.value != "" &&
             address.value != "" &&
             //country.value != "";
-            fullInfo.value != "") {
+            fullInfo.value != "")
+        {
             var str = JSON.stringify(newUser);
             console.log(str);
             var xhr = new XMLHttpRequest();
@@ -182,7 +183,6 @@ xhr.addEventListener("readystatechange", function () {
             /////////////////////////
             form.reset();
 
-
             table.addEventListener("click", function (e) {
                 var target = e.target;
                 //Remove functionality
@@ -218,6 +218,12 @@ xhr.addEventListener("readystatechange", function () {
                     });
                     innerXhr.send();
                 }
+                //EDIT functionality
+                if (target.innerText === "Edit") {
+                    console.log(target.id);
+                }
+            });
+
         }
 
     });
