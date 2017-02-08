@@ -56,7 +56,7 @@ xhr.addEventListener("readystatechange", function () {
 
     table.addEventListener("click", function (e) {
         var target = e.target;
-        //Remove functionality
+                                                                //Remove functionality
         if (target.innerText === "Remove") {
 
             var innerXhr = new XMLHttpRequest();
@@ -89,9 +89,59 @@ xhr.addEventListener("readystatechange", function () {
             });
             innerXhr.send();
         }
-        //EDIT functionality
+    ///////////////////EDIT functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
-            console.log(target.id);
+            var userID = target.id;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET","/user");
+            xhr.addEventListener("readystatechange",function(){
+                if(xhr.readyState != 4){
+                    return;
+                }
+                var objects = JSON.parse(xhr.responseText);
+                //console.log(objects[0].id);
+                for (var i = 0;i<objects.length;i++){
+                    //console.log( objects[i]);
+                    if(objects[i].id === userID){
+                        form.classList.remove("users-edit-hidden");
+
+                            fullname.value = objects[i].fullName;
+                            birthday.value = objects[i].birthday;
+                            profession.value = objects[i].profession;
+                            address.value = objects[i].address;
+                            shortInfo.value = objects[i].shortInfo;
+                            fullInfo.value = objects[i].fullInfo;
+
+                            var hiddenIdElement = document.getElementById("id");
+                            hiddenIdElement.setAttribute("id",''+objects[i].id+'');
+
+                            //EMPROWMENT
+
+                        if(hiddenIdElement.getAttribute("id") != objects[i].id){
+                            putXhr = new XMLHttpRequest();
+                            putXhr.open("PUT","/user");
+                            putXhr.addEventListener("readystatechange",function(){
+                                if(putXhr.readyState != 4){
+                                    return;
+                                }
+
+
+                                fullname.value = objects[i].fullName;
+                                birthday.value = objects[i].birthday;
+                                profession.value = objects[i].profession;
+                                address.value = objects[i].address;
+                                shortInfo.value = objects[i].shortInfo;
+                                fullInfo.value = objects[i].fullInfo;
+
+                            });
+                        }
+
+
+                    }
+                }
+            });
+            xhr.send();
+
         }
     });
 
@@ -181,7 +231,9 @@ xhr.addEventListener("readystatechange", function () {
 
             table.appendChild(newTr);
             /////////////////////////
+
             form.reset();
+            form.classList.add("users-edit-hidden");
 
             table.addEventListener("click", function (e) {
                 var target = e.target;
@@ -195,7 +247,6 @@ xhr.addEventListener("readystatechange", function () {
                         if (innerXhr.readyState != 4) {
                             return;
                         }
-
                         var str = JSON.parse(innerXhr.responseText);
 
                         for (var i = 0; i <= str.length - 1; i++) {
@@ -217,10 +268,6 @@ xhr.addEventListener("readystatechange", function () {
                         }
                     });
                     innerXhr.send();
-                }
-                //EDIT functionality
-                if (target.innerText === "Edit") {
-                    console.log(target.id);
                 }
             });
 
