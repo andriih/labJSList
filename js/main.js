@@ -118,25 +118,30 @@ xhr.addEventListener("readystatechange", function () {
                             //EMPROWMENT
 
                         if(hiddenIdElement.getAttribute("id") != objects[i].id){
-                            putXhr = new XMLHttpRequest();
-                            putXhr.open("PUT","/user");
+                           ////////////////////////////
+                            var putObj = {
+                                id: objects[i].id,
+                                fullName: fullname.value,
+                                birthday: birthday.value,
+                                profession: profession.value,
+                                address: address.value,
+                                country: country.innerHTML,
+                                shortInfo: shortInfo.value,
+                                fullInfo: fullInfo.value
+                            }
+                            var str = JSON.stringify(putObj);
+                            ///////////////////////
+                            var putXhr = new XMLHttpRequest();
+                            putXhr.open("PUT",'/user?id=' + objects[i].id + '');
+                            putXhr.setRequestHeader('Content-Type', 'application/json');
                             putXhr.addEventListener("readystatechange",function(){
                                 if(putXhr.readyState != 4){
                                     return;
                                 }
 
-
-                                fullname.value = objects[i].fullName;
-                                birthday.value = objects[i].birthday;
-                                profession.value = objects[i].profession;
-                                address.value = objects[i].address;
-                                shortInfo.value = objects[i].shortInfo;
-                                fullInfo.value = objects[i].fullInfo;
-
                             });
+                            putXhr.send(str);
                         }
-
-
                     }
                 }
             });
