@@ -11,19 +11,42 @@ create = document.getElementById("create"),
     btnSave = document.querySelector(".btn-save"),
     btnCancel = document.querySelector(".btn-cancel");
 var hiddenIdElement = document.getElementById("id");
-var xhr = new XMLHttpRequest();
+var Request = {};
 
-xhr.open("GET", "/user");
+Request.execute = function(url,method,callback,data){
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.responseType = 'json';
+    xhr.addEventListener("readystatechange", function () {
+        if (xhr.readyState != 4) {
+            return;
+        }
+        callback(this.response);
+    });
+    xhr.send();
 
-xhr.addEventListener("readystatechange", function () {
-    if (xhr.readyState != 4) {
-        return;
-    }
+};
 
-    var str = JSON.parse(xhr.responseText);
-    // console.log(str);
+Request.get = function(url,method,callback){
+    Request.execute(url, method,callback);
+};
 
-    for (var i = 0; i <= str.length - 1; i++) {
+Request.put = function(url,method,callback){
+    Request.execute(url,method);
+};
+
+Request.delete = function(url,method,callback){
+    Request.execute(url,method);
+};
+
+Request.post = function(url,method,data,callback){
+    Request.execute(url,data,method);
+};
+
+
+Request.get('/user','GET',function(json){
+
+    for (var i = 0; i <= json.length - 1; i++) {
         var newTr = document.createElement("tr"),
             userNameField = document.createElement("td"),
             shortInfoCell = document.createElement("td"),
@@ -34,13 +57,13 @@ xhr.addEventListener("readystatechange", function () {
 
         btnRemove.innerText = "Remove";
         btnEdit.innerText = "Edit";
-        btnRemove.setAttribute("id", str[i].id);
-        btnEdit.setAttribute("id", str[i].id);
+        btnRemove.setAttribute("id", json[i].id);
+        btnEdit.setAttribute("id",   json[i].id);
 
 
-        userNameField.innerText = str[i].fullName;
-        shortInfoCell.innerText = str[i].shortInfo;
-        professionField.innerText = str[i].profession;
+        userNameField.innerText =   json[i].fullName;
+        shortInfoCell.innerText =   json[i].shortInfo;
+        professionField.innerText = json[i].profession;
 
         removeField.appendChild(btnRemove);
         removeField.appendChild(btnEdit);
@@ -51,12 +74,14 @@ xhr.addEventListener("readystatechange", function () {
         newTr.appendChild(removeField);
 
         table.appendChild(newTr);
-    }
-    ;
+    };
+});
+
+
 
     table.addEventListener("click", function (e) {
         var target = e.target;
-                                                                //Remove functionality
+        //Remove functionality
         if (target.innerText === "Remove") {
 
             var innerXhr = new XMLHttpRequest();
@@ -89,36 +114,36 @@ xhr.addEventListener("readystatechange", function () {
             });
             innerXhr.send();
         }
-    ///////////////////EDIT functionality//////////////////////////////////////////
+        ///////////////////EDIT functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
             var userID = target.id;
             var xhr = new XMLHttpRequest();
-            xhr.open("GET","/user");
-            xhr.addEventListener("readystatechange",function(){
-                if(xhr.readyState != 4){
+            xhr.open("GET", "/user");
+            xhr.addEventListener("readystatechange", function () {
+                if (xhr.readyState != 4) {
                     return;
                 }
                 var objects = JSON.parse(xhr.responseText);
                 //console.log(objects[0].id);
-                for (var i = 0;i<objects.length;i++){
+                for (var i = 0; i < objects.length; i++) {
                     //console.log( objects[i]);
-                    if(objects[i].id === userID){
+                    if (objects[i].id === userID) {
                         form.classList.remove("users-edit-hidden");
 
-                            fullname.value = objects[i].fullName;
-                            birthday.value = objects[i].birthday;
-                            profession.value = objects[i].profession;
-                            address.value = objects[i].address;
-                            shortInfo.value = objects[i].shortInfo;
-                            fullInfo.value = objects[i].fullInfo;
+                        fullname.value = objects[i].fullName;
+                        birthday.value = objects[i].birthday;
+                        profession.value = objects[i].profession;
+                        address.value = objects[i].address;
+                        shortInfo.value = objects[i].shortInfo;
+                        fullInfo.value = objects[i].fullInfo;
 
 
-                            hiddenIdElement.setAttribute("id",''+objects[i].id+'');
+                        hiddenIdElement.setAttribute("id", '' + objects[i].id + '');
 
-                            //EMPROWMENT
+                        //EMPROWMENT
 
-                        if(hiddenIdElement.getAttribute("id") != objects[i].id){
-                           ////////////////////////////
+                        if (hiddenIdElement.getAttribute("id") != objects[i].id) {
+                            ////////////////////////////
                             var putObj = {
                                 id: objects[i].id,
                                 fullName: fullname.value,
@@ -132,10 +157,10 @@ xhr.addEventListener("readystatechange", function () {
                             var str = JSON.stringify(putObj);
                             ///////////////////////
                             var putXhr = new XMLHttpRequest();
-                            putXhr.open("PUT",'/user?id=' + objects[i].id + '');
+                            putXhr.open("PUT", '/user?id=' + objects[i].id + '');
                             putXhr.setRequestHeader('Content-Type', 'application/json');
-                            putXhr.addEventListener("readystatechange",function(){
-                                if(putXhr.readyState != 4){
+                            putXhr.addEventListener("readystatechange", function () {
+                                if (putXhr.readyState != 4) {
                                     return;
                                 }
 
@@ -193,8 +218,7 @@ xhr.addEventListener("readystatechange", function () {
             profession.value != "" &&
             address.value != "" &&
             //country.value != "";
-            fullInfo.value != "")
-        {
+            fullInfo.value != "") {
             var str = JSON.stringify(newUser);
             console.log(str);
             var xhr = new XMLHttpRequest();
@@ -284,6 +308,3 @@ xhr.addEventListener("readystatechange", function () {
         form.classList.add("users-edit-hidden");
     });
 
-
-});
-xhr.send();
