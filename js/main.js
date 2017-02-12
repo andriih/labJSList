@@ -11,8 +11,8 @@ create = document.getElementById("create"),
     btnSave = document.querySelector(".btn-save"),
     btnCancel = document.querySelector(".btn-cancel");
 var hiddenIdElement = document.getElementById("id");
-var Request = {};
 
+var Request = {};
 Request.execute = function(url,method,callback,data){
     var xhr = new XMLHttpRequest();
     xhr.open(method, url);
@@ -23,7 +23,11 @@ Request.execute = function(url,method,callback,data){
         }
         callback(this.response);
     });
-    xhr.send();
+    var dataToSend = null;
+    if(data){
+        dataToSend = JSON.stringify(data);
+    }
+    xhr.send(dataToSend);
 };
 Request.get = function(url,method,callback){
     Request.execute(url, method,callback);
@@ -74,21 +78,23 @@ Request.get('/user','GET',function(json){
     table.addEventListener("click", function (e) {
         var target = e.target;
         ////////////////////////REMOVE USER functionality/////////////////////////////////////
-        if (target.innerText === "Remove") {
-            Request.get("/user","GET",function(json){
-                for (var i = 0; i <= json.length - 1; i++) {
-                    if (json[i].id === target.id) {
-                        //DELETE request
-                        Request.delete('/user?id=' + target.id + '',"DELETE",function(){
-                            target.parentElement.parentElement.remove();
-                        });
-                    }
-            });
-        }
+        // if (target.innerText === "Remove") {
+
+        //     Request.get("/user","GET",function(json){
+
+        //         for (var i = 0; i <= json.length - 1; i++) {
+        //             if (json[i].id === target.id) {
+        //                 //DELETE request
+        //                 Request.delete('/user?id=' + target.id + '',"DELETE",function(){
+        //                     target.parentElement.parentElement.remove();
+        //                 });
+        //             }
+        //         }); 
+        // }
         ///////////////////EDIT USER functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
 
-           Request.get("/user","GET",function(objects){
+           Request.get("/user","GET",function(){
                for (var i = 0; i < objects.length; i++) {
                    //console.log( objects[i]);
                    if (objects[i].id === userID) {
@@ -125,12 +131,6 @@ Request.get('/user','GET',function(json){
            });
            };
         });
-
-                //console.log(objects[0].id);
-
-
-
-    });
 
     create.addEventListener("click", function () {
         form.classList.remove("users-edit-hidden");
@@ -176,19 +176,10 @@ Request.get('/user','GET',function(json){
             //country.value != "";
             fullInfo.value != "") {
             var str = JSON.stringify(newUser);
-            console.log(str);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/user");
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.readyState != 4) {
-                    return;
-                }
-            });
-            xhr.send(str);
-            /////////////////////////
-            var json = JSON.parse(str);////PArse json
-            var newTr = document.createElement("tr"),
+            //console.log(str);
+            ////////////////POST REQUEST///////////////////////////////////
+            Request.post("/user","POST",function () {
+                var newTr = document.createElement("tr"),
                 userNameField = document.createElement("td"),
                 shortInfoCell = document.createElement("td"),
                 professionField = document.createElement("td"),
@@ -220,44 +211,29 @@ Request.get('/user','GET',function(json){
             form.reset();
             form.classList.add("users-edit-hidden");
 
+            },json);
+            //////////////// END POST REQUEST///////////////////////////////////
+
+            
+            
             table.addEventListener("click", function (e) {
                 var target = e.target;
                 //Remove functionality
                 if (target.innerText === "Remove") {
-
-                    var innerXhr = new XMLHttpRequest();
-                    innerXhr.open("GET", "/user");
-                    innerXhr.addEventListener("readystatechange", function () {
-
-                        if (innerXhr.readyState != 4) {
-                            return;
-                        }
-                        var str = JSON.parse(innerXhr.responseText);
-
-                        for (var i = 0; i <= str.length - 1; i++) {
-                            if (str[i].id === target.id) {
-                                //DELETE request
-                                var deleteXhr = new XMLHttpRequest();
-                                deleteXhr.open("DELETE", '/user?id=' + target.id + '');
-                                deleteXhr.addEventListener("readystatechange", function () {
-                                    if (deleteXhr.readyState != 4 && deleteXhr.status != 200) {
-                                        return;
-                                    }
-                                    target.parentElement.parentElement.remove();
-                                    //target.parentElement.parentElement.parentElement.removeChild( target.parentElement.parentElement );
-
-                                });
-
-                                deleteXhr.send();
+                        Request.get("/user","GET",function(json){
+                            for (var i = 0; i <= str.length - 1; i++) {
+                                if (json[i].id === target.id) {
+                                    //DELETE request
+                                    Request.delete('/user?id=' + target.id + '',"DELETE",function(){
+                                        target.parentElement.parentElement.remove();
+                                    });
+                                }
                             }
-                        }
-                    });
-                    innerXhr.send();
+                        });
                 }
-            });
+             });
 
         }
-
     });
 
     btnCancel.addEventListener("click", function () {
