@@ -88,60 +88,48 @@ Request.get('/user','GET',function(json){
         ///////////////////EDIT USER functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
 
-           Request.get("/user","GET",function(json){
+           Request.get("/user","GET",function(objects){
+               for (var i = 0; i < objects.length; i++) {
+                   //console.log( objects[i]);
+                   if (objects[i].id === userID) {
+                       form.classList.remove("users-edit-hidden");
+                       fullname.value = objects[i].fullName;
+                       birthday.value = objects[i].birthday;
+                       profession.value = objects[i].profession;
+                       address.value = objects[i].address;
+                       shortInfo.value = objects[i].shortInfo;
+                       fullInfo.value = objects[i].fullInfo;
 
+
+                       hiddenIdElement.setAttribute("id", '' + objects[i].id + '');
+
+                       if (hiddenIdElement.getAttribute("id") != objects[i].id) {
+                           ////////////////////////////
+                           var putObj = {
+                               id: objects[i].id,
+                               fullName: fullname.value,
+                               birthday: birthday.value,
+                               profession: profession.value,
+                               address: address.value,
+                               country: country.innerHTML,
+                               shortInfo: shortInfo.value,
+                               fullInfo: fullInfo.value
+                           }
+                           var str = JSON.stringify(putObj);
+                           ///////////////////////PUT REQUEST FOR EDIT USER
+                           Request.put('/user?id=' + objects[i].id + '',"PUT");
+                           ///////////////////////END PUT////////////////////////////
+                       }
+                   }
+               }
+           });
            };
         });
 
                 //console.log(objects[0].id);
-                for (var i = 0; i < objects.length; i++) {
-                    //console.log( objects[i]);
-                    if (objects[i].id === userID) {
-                        form.classList.remove("users-edit-hidden");
-
-                        fullname.value = objects[i].fullName;
-                        birthday.value = objects[i].birthday;
-                        profession.value = objects[i].profession;
-                        address.value = objects[i].address;
-                        shortInfo.value = objects[i].shortInfo;
-                        fullInfo.value = objects[i].fullInfo;
 
 
-                        hiddenIdElement.setAttribute("id", '' + objects[i].id + '');
 
-                        //EMPROWMENT
-
-                        if (hiddenIdElement.getAttribute("id") != objects[i].id) {
-                            ////////////////////////////
-                            var putObj = {
-                                id: objects[i].id,
-                                fullName: fullname.value,
-                                birthday: birthday.value,
-                                profession: profession.value,
-                                address: address.value,
-                                country: country.innerHTML,
-                                shortInfo: shortInfo.value,
-                                fullInfo: fullInfo.value
-                            }
-                            var str = JSON.stringify(putObj);
-                            ///////////////////////
-                            var putXhr = new XMLHttpRequest();
-                            putXhr.open("PUT", '/user?id=' + objects[i].id + '');
-                            putXhr.setRequestHeader('Content-Type', 'application/json');
-                            putXhr.addEventListener("readystatechange", function () {
-                                if (putXhr.readyState != 4) {
-                                    return;
-                                }
-
-                            });
-                            putXhr.send(str);
-                        }
-                    }
-                }
-            });
-            xhr.send();
-
-        }
     });
 
     create.addEventListener("click", function () {
@@ -170,7 +158,6 @@ Request.get('/user','GET',function(json){
         ////////////////////
         //var shortInfo2 = document.querySelector("#short-info");
         //var country2 = form.elements.country;
-
         var newUser = {
             id: "",
             fullName: fullname.value,
