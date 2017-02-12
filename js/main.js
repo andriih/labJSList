@@ -24,28 +24,22 @@ Request.execute = function(url,method,callback,data){
         callback(this.response);
     });
     xhr.send();
-
 };
-
 Request.get = function(url,method,callback){
     Request.execute(url, method,callback);
 };
-
 Request.put = function(url,method,callback){
     Request.execute(url,method);
 };
-
 Request.delete = function(url,method,callback){
-    Request.execute(url,method);
+    Request.execute(url,method,callback);
 };
-
 Request.post = function(url,method,data,callback){
     Request.execute(url,data,method);
 };
 
 
 Request.get('/user','GET',function(json){
-
     for (var i = 0; i <= json.length - 1; i++) {
         var newTr = document.createElement("tr"),
             userNameField = document.createElement("td"),
@@ -77,53 +71,28 @@ Request.get('/user','GET',function(json){
     };
 });
 
-
-
     table.addEventListener("click", function (e) {
         var target = e.target;
-        //Remove functionality
+        ////////////////////////REMOVE USER functionality/////////////////////////////////////
         if (target.innerText === "Remove") {
-
-            var innerXhr = new XMLHttpRequest();
-            innerXhr.open("GET", "/user");
-            innerXhr.addEventListener("readystatechange", function () {
-
-                if (innerXhr.readyState != 4) {
-                    return;
-                }
-
-                var str = JSON.parse(innerXhr.responseText);
-
-                for (var i = 0; i <= str.length - 1; i++) {
-                    if (str[i].id === target.id) {
+            Request.get("/user","GET",function(json){
+                for (var i = 0; i <= json.length - 1; i++) {
+                    if (json[i].id === target.id) {
                         //DELETE request
-                        var deleteXhr = new XMLHttpRequest();
-                        deleteXhr.open("DELETE", '/user?id=' + target.id + '');
-                        deleteXhr.addEventListener("readystatechange", function () {
-                            if (deleteXhr.readyState != 4 && deleteXhr.status != 200) {
-                                return;
-                            }
+                        Request.delete('/user?id=' + target.id + '',"DELETE",function(){
                             target.parentElement.parentElement.remove();
-                            //target.parentElement.parentElement.parentElement.removeChild( target.parentElement.parentElement );
-
                         });
-
-                        deleteXhr.send();
                     }
-                }
             });
-            innerXhr.send();
         }
-        ///////////////////EDIT functionality//////////////////////////////////////////
+        ///////////////////EDIT USER functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
-            var userID = target.id;
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/user");
-            xhr.addEventListener("readystatechange", function () {
-                if (xhr.readyState != 4) {
-                    return;
-                }
-                var objects = JSON.parse(xhr.responseText);
+
+           Request.get("/user","GET",function(json){
+
+           };
+        });
+
                 //console.log(objects[0].id);
                 for (var i = 0; i < objects.length; i++) {
                     //console.log( objects[i]);
