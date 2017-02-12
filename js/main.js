@@ -78,19 +78,21 @@ Request.get('/user','GET',function(json){
     table.addEventListener("click", function (e) {
         var target = e.target;
         ////////////////////////REMOVE USER functionality/////////////////////////////////////
-        // if (target.innerText === "Remove") {
+        if (target.innerText === "Remove") {
 
-        //     Request.get("/user","GET",function(json){
-
-        //         for (var i = 0; i <= json.length - 1; i++) {
-        //             if (json[i].id === target.id) {
-        //                 //DELETE request
-        //                 Request.delete('/user?id=' + target.id + '',"DELETE",function(){
-        //                     target.parentElement.parentElement.remove();
-        //                 });
-        //             }
-        //         }); 
-        // }
+            Request.get("/user","GET", function(json)
+                {
+                    for (var i = 0; i <= json.length - 1; i++) 
+                    {
+                        if (json[i].id === target.id) {
+                            //DELETE request
+                            Request.delete('/user?id=' + target.id + '',"DELETE",function(){
+                                target.parentElement.parentElement.remove();
+                            });
+                        }
+                    }
+                });
+        }
         ///////////////////EDIT USER functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
 
