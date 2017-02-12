@@ -95,8 +95,9 @@ Request.get('/user','GET',function(json){
         }
         ///////////////////EDIT USER functionality//////////////////////////////////////////
         if (target.innerText === "Edit") {
-
-           Request.get("/user","GET",function(){
+        
+           Request.get("/user","GET",function(objects){
+               var userID = target.id;
                for (var i = 0; i < objects.length; i++) {
                    //console.log( objects[i]);
                    if (objects[i].id === userID) {
@@ -179,6 +180,7 @@ Request.get('/user','GET',function(json){
             fullInfo.value != "") {
             var str = JSON.stringify(newUser);
             //console.log(str);
+
             ////////////////POST REQUEST///////////////////////////////////
             Request.post("/user","POST",function () {
                 var newTr = document.createElement("tr"),
@@ -194,7 +196,6 @@ Request.get('/user','GET',function(json){
             btnRemove.setAttribute("id", json.id);
             btnEdit.setAttribute("id", json.id);
 
-
             userNameField.innerText = json.fullName;
             shortInfoCell.innerText = json.shortInfo;
             professionField.innerText = json.profession;
@@ -208,15 +209,13 @@ Request.get('/user','GET',function(json){
             newTr.appendChild(removeField);
 
             table.appendChild(newTr);
-            /////////////////////////
-
+           
             form.reset();
             form.classList.add("users-edit-hidden");
 
             },json);
             //////////////// END POST REQUEST///////////////////////////////////
 
-            
             
             table.addEventListener("click", function (e) {
                 var target = e.target;
