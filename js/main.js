@@ -38,8 +38,8 @@ Request.put = function(url,method,callback){
 Request.delete = function(url,method,callback){
     Request.execute(url,method,callback);
 };
-Request.post = function(url,method,data,callback){
-    Request.execute(url,data,method);
+Request.post = function(url,method,callback,data){
+    Request.execute(url,method,callback,data);
 };
 
 
@@ -182,7 +182,8 @@ Request.get('/user','GET',function(json){
             //console.log(str);
 
             ////////////////POST REQUEST///////////////////////////////////
-            Request.post("/user","POST",function () {
+            Request.post("/user","POST",function (json) {
+                
                 var newTr = document.createElement("tr"),
                 userNameField = document.createElement("td"),
                 shortInfoCell = document.createElement("td"),
@@ -213,7 +214,7 @@ Request.get('/user','GET',function(json){
             form.reset();
             form.classList.add("users-edit-hidden");
 
-            },json);
+            });
             //////////////// END POST REQUEST///////////////////////////////////
 
             
