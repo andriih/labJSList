@@ -44,7 +44,7 @@ Request.post = function(url,method,callback,data){
 
 
 Request.get('/user','GET',function(json){
-    for (var i = 0; i <= json.length - 1; i++) {
+    for (var i = 0; i <= 3; i++) {
         var newTr = document.createElement("tr"),
             userNameField = document.createElement("td"),
             shortInfoCell = document.createElement("td"),
@@ -161,29 +161,38 @@ Request.get('/user','GET',function(json){
         ////////////////////
         //var shortInfo2 = document.querySelector("#short-info");
         //var country2 = form.elements.country;
-        var newUser = {
-            id: "",
-            fullName: fullname.value,
-            birthday: birthday.value,
-            profession: profession.value,
-            address: address.value,
-            country: country.innerHTML,
-            shortInfo: shortInfo.value,
-            fullInfo: fullInfo.value
-        };
+       
+         var newUser = {
+                    id: "",
+                    fullName: fullname.value,
+                    birthday: birthday.value,
+                    profession: profession.value,
+                    address: address.value,
+                    country: country.innerHTML,
+                    shortInfo: shortInfo.value,
+                    fullInfo: fullInfo.value
+                    };
 
         if (fullname.value != "" &&
-            birthday.value != "" &&
+            birthday.value  != "" &&
             profession.value != "" &&
             address.value != "" &&
             //country.value != "";
             fullInfo.value != "") {
-            var str = JSON.stringify(newUser);
+            
+
+            //var str = JSON.parse(newUser);
             //console.log(str);
 
             ////////////////POST REQUEST///////////////////////////////////
-            Request.post("/user","POST",function (json) {
+            Request.post("/user","POST",function () {
+
                 
+                //console.log(str);
+               // var str = JSON.stringify(this.response);
+                //console.log(this.profession);
+                
+
                 var newTr = document.createElement("tr"),
                 userNameField = document.createElement("td"),
                 shortInfoCell = document.createElement("td"),
@@ -194,12 +203,12 @@ Request.get('/user','GET',function(json){
 
             btnRemove.innerText = "Remove";
             btnEdit.innerText = "Edit";
-            btnRemove.setAttribute("id", json.id);
-            btnEdit.setAttribute("id", json.id);
+            btnRemove.setAttribute("id", this.id);
+            btnEdit.setAttribute("id", this.id);
 
-            userNameField.innerText = json.fullName;
-            shortInfoCell.innerText = json.shortInfo;
-            professionField.innerText = json.profession;
+            userNameField.innerText = this.fullname.value;
+            shortInfoCell.innerText = this.shortInfo.value;
+            professionField.innerText = this.profession.value;
 
             removeField.appendChild(btnRemove);
             removeField.appendChild(btnEdit);
@@ -211,19 +220,18 @@ Request.get('/user','GET',function(json){
 
             table.appendChild(newTr);
            
-            form.reset();
             form.classList.add("users-edit-hidden");
 
-            });
-            //////////////// END POST REQUEST///////////////////////////////////
+            }, newUser);
 
+            //////////////// END POST REQUEST///////////////////////////////////
             
             table.addEventListener("click", function (e) {
                 var target = e.target;
                 //Remove functionality
                 if (target.innerText === "Remove") {
                         Request.get("/user","GET",function(json){
-                            for (var i = 0; i <= str.length - 1; i++) {
+                            for (var i = 0; i <= json.length - 1; i++) {
                                 if (json[i].id === target.id) {
                                     //DELETE request
                                     Request.delete('/user?id=' + target.id + '',"DELETE",function(){
