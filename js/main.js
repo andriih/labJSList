@@ -28,19 +28,24 @@ tbl.click(function(e){
     //EDIT
     if(e.target.id === "edit"){
         form.removeClass('users-edit-hidden');
-        $('#fullname').val('fullname');
-        $('#birthday').val('birthday');
-        $('#address').val('address');
-        ////////////////GET COUNTRIES//////////////
-        $.get('/countries',function(data){
+        $.get('/user',function(data){
             $.each(data,function(index,value){
-                $('#country').append('<option>'+value+'</option>');
+                if(e.target.parentElement.parentElement.id === value.id){
+                    $('#fullname').val(value.fullName);
+                    $('#birthday').val(value.birthday);
+                    $('#address').val(value.address);
+                    $('#profession').val(value.profession);
+                    ////////////////GET COUNTRIES//////////////
+                    $.get('/countries',function(data){
+                        $.each(data,function(index,value){
+                            $('#country').append('<option>'+value+'</option>');
+                        });
+                    });
+                    $('#short-info').val(value.shortInfo);
+                    $('#full-info').val(value.fullInfo);
+                }
             });
         });
-        //$('#country').
-        $('#short-info').val('short-info');
-        $('#full-info').val('full-info');
-
     }
 });
 ////////////////////CANCEL botton/////////////
