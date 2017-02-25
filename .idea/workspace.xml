@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8bd1706b-d5a8-4de6-8c94-b37de5ccfbfd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -227,7 +226,7 @@
       <workItem from="1486919982904" duration="5852000" />
       <workItem from="1486933191027" duration="720000" />
       <workItem from="1487280246603" duration="282000" />
-      <workItem from="1487962824858" duration="14952000" />
+      <workItem from="1487962824858" duration="14983000" />
     </task>
     <task id="LOCAL-00001" summary="buttons added">
       <created>1486064467229</created>
@@ -355,11 +354,18 @@
       <option name="project" value="LOCAL" />
       <updated>1488041578777</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="get countries added">
+      <created>1488043175794</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1488043175794</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60113000" />
+    <option name="totallyTimeSpent" value="60144000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1860" height="1098" extended-state="6" />
@@ -412,7 +418,8 @@
     <MESSAGE value="Jquery refactoring begins" />
     <MESSAGE value="jquery refactoring" />
     <MESSAGE value="bottons added" />
-    <option name="LAST_COMMIT_MESSAGE" value="bottons added" />
+    <MESSAGE value="get countries added" />
+    <option name="LAST_COMMIT_MESSAGE" value="get countries added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
