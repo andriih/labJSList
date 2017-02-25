@@ -1,5 +1,6 @@
 var tbl =  $('#users-table'),
-    form = $('.users-edit');
+    form = $('.users-edit'),
+    hidden = $('#id');
 
 $.get('/user',function(data){
     $.each(data,function(index,value){
@@ -31,6 +32,7 @@ tbl.click(function(e){
         $.get('/user',function(data){
             $.each(data,function(index,value){
                 if(e.target.parentElement.parentElement.id === value.id){
+                    hidden.attr('id',e.target.parentElement.parentElement.id);
                     $('#fullname').val(value.fullName);
                     $('#birthday').val(value.birthday);
                     $('#address').val(value.address);
