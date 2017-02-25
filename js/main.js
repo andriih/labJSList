@@ -18,7 +18,7 @@ tbl.click(function(e){
     if(e.target.id === "remove"){
         //console.log(e.target.parentElement.parentElement.id);
         e.target.parentElement.parentElement.remove();
-        $.get('/user',function(data){
+        $.get('/user',function(){
             $.ajax({
                 url: '/user?id='+e.target.parentElement.parentElement.id +'',
                 type: 'DELETE'
@@ -28,8 +28,22 @@ tbl.click(function(e){
     //EDIT
     if(e.target.id === "edit"){
         form.removeClass('users-edit-hidden');
+        $('#fullname').val('fullname');
+        $('#birthday').val('birthday');
+        $('#address').val('address');
+        ////////////////GET COUNTRIES//////////////
+        $.get('/countries',function(data){
+            $.each(data,function(index,value){
+                $('#country').append('<option>'+value+'</option>');
+            });
+        });
+        //$('#country').
+        $('#short-info').val('short-info');
+        $('#full-info').val('full-info');
+
     }
 });
+////////////////////CANCEL botton/////////////
 $('#cancel').click(function(e){
     e.preventDefault();
     form.addClass('users-edit-hidden');
