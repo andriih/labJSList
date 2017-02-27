@@ -9,17 +9,23 @@ var tbl =  $('#users-table'),
         });
     });
 }
-$.get('/user',function(data){
-    $.each(data,function(index,value){
-        var tr = $("<tr></tr>");
-        tr.attr('id',value.id);
-        tbl.append(tr.append('<td>'+value.fullName+'</td>'));
-        tbl.append(tr.append('<td>'+value.profession+'</td>'));
-        tbl.append(tr.append('<td>'+value.shortInfo+'</td>'));
-        tbl.append(tr.append('<td>' +
-            '<button id="edit">Edit</button> <button id="remove">Remove</button></td>'));
-    });
-});
+
+function getUsers (){
+        $.get('/user',function(data){
+            $.each(data,function(index,value){
+                var tr = $("<tr></tr>");
+                tr.attr('id',value.id);
+                tbl.append(tr.append('<td>'+value.fullName+'</td>'));
+                tbl.append(tr.append('<td>'+value.profession+'</td>'));
+                tbl.append(tr.append('<td>'+value.shortInfo+'</td>'));
+                tbl.append(tr.append('<td>' +
+                    '<button id="edit">Edit</button> <button id="remove">Remove</button></td>'));
+            });
+        });
+}
+
+getUsers();
+
 //////////REMOVE-EDIT FUNC//////////////////////////////
 tbl.click(function(e){
     //REMOVE
@@ -62,12 +68,23 @@ $('#create').click(function(e){
     getCountries();
     form.submit(function(e){
         e.preventDefault();
-    
+
+        // var newUser = {
+        //     fullName:  $('#fullname').val(),
+        //     birthday:  $('#birthday').val(),
+        //     profession:  $('#profession').val(),
+        //     address:  $('#address').val(),
+        //     shortInfo:  $('#shortInfo').val(),
+        //     fullInfo:  $('#fullInfo').val()
+        // };
+        // var str = JSON.stringify(newUser);
         
-        $.post('/user',{ fullname: "John", birthday: "2pm" },function(data){
+        $.post('/user',form.serialize(),function(data){
+            getUsers();
             console.log(data);
             $('.users-edit')[0].reset();
-        });
+        },'json');
+
 
         return false;
         
