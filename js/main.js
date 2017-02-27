@@ -62,6 +62,7 @@ tbl.click(function(e){
                     form.submit(function(e){ 
                         e.preventDefault();
                          var newUser = {
+                            id: "",
                             fullName:  $('#fullname').val(),
                             birthday:  $('#birthday').val(),
                             profession:  $('#profession').val(),
@@ -69,24 +70,27 @@ tbl.click(function(e){
                             shortInfo:  $('#short-info').val(),
                             fullInfo:  $('#full-info').val()
                             };
+                            
                             var str = JSON.stringify(newUser);
-
+                            console.dir(str);
                             $.ajax({
-                                url:'/user',
+                                url:'/user?id='+value.id+'',
                                 type:"PUT",
                                 data:  str,
                                 contentType: 'application/json',
                                 dataType:"json",
                                 success: function(data){
-                                    //getUsers();
+                                    
                                     $.get('/user?id='+data.id+'',function(data){
                                         addRow(data);
+                                        console.log(data);
                                     });
-                                   // console.log('/user?id='+data.id+'');
+                                   
                                     $('.users-edit')[0].reset();
                                     form.addClass('users-edit-hidden');
                                   }
                             });
+
                         return false;
                     });
                 }
