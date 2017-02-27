@@ -62,7 +62,7 @@ tbl.click(function(e){
                     form.submit(function(e){ 
                         e.preventDefault();
                          var newUser = {
-                            id: "",
+                            id: value.id,
                             fullName:  $('#fullname').val(),
                             birthday:  $('#birthday').val(),
                             profession:  $('#profession').val(),
@@ -83,7 +83,7 @@ tbl.click(function(e){
                                     
                                     $.get('/user?id='+data.id+'',function(data){
                                         addRow(data);
-                                        console.log(data);
+                                        //console.log(data);
                                     });
                                    
                                     $('.users-edit')[0].reset();
@@ -109,7 +109,7 @@ $('#create').click(function(e){
     form.submit(function(e){
         e.preventDefault();
 
-        if( 
+        if(
             $('#fullname').val()    !== "" &&
             $('#birthday').val()    !== "" &&
             $('#profession').val()  !== "" &&
@@ -156,7 +156,7 @@ $('#create').click(function(e){
 
 ////////////////////CANCEL botton/////////////
 $('#cancel').click(function(e){
-    getUsers();
+    //getUsers();
     e.preventDefault();
     form.addClass('users-edit-hidden');
 });
