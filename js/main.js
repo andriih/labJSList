@@ -58,7 +58,37 @@ tbl.click(function(e){
                     ////////////////GET COUNTRIES//////////////
                     getCountries();
                     
-                    
+                    ////////PUT REQUEST/////////
+                    form.submit(function(e){ 
+                        e.preventDefault();
+                         var newUser = {
+                            fullName:  $('#fullname').val(),
+                            birthday:  $('#birthday').val(),
+                            profession:  $('#profession').val(),
+                            address:    $('#address').val(),
+                            shortInfo:  $('#short-info').val(),
+                            fullInfo:  $('#full-info').val()
+                            };
+                            var str = JSON.stringify(newUser);
+
+                            $.ajax({
+                                url:'/user',
+                                type:"PUT",
+                                data:  str,
+                                contentType: 'application/json',
+                                dataType:"json",
+                                success: function(data){
+                                    //getUsers();
+                                    $.get('/user?id='+data.id+'',function(data){
+                                        addRow(data);
+                                    });
+                                   // console.log('/user?id='+data.id+'');
+                                    $('.users-edit')[0].reset();
+                                    form.addClass('users-edit-hidden');
+                                  }
+                            });
+                        return false;
+                    });
                 }
             });
         });
@@ -83,7 +113,7 @@ $('#create').click(function(e){
             $('#short-info').val()  !== "" &&
             $('#full-info').val()
         ){
-            var newUser = {
+        var newUser = {
             fullName:  $('#fullname').val(),
             birthday:  $('#birthday').val(),
             profession:  $('#profession').val(),
