@@ -49,11 +49,12 @@ tbl.click(function(e){
                     $('#birthday').val(value.birthday);
                     $('#address').val(value.address);
                     $('#profession').val(value.profession);
+                    $('#short-info').val(value.shortInfo);
+                    $('#full-info').val(value.fullInfo);
                     ////////////////GET COUNTRIES//////////////
                     getCountries();
                     
-                    $('#short-info').val(value.shortInfo);
-                    $('#full-info').val(value.fullInfo);
+                    
                 }
             });
         });
@@ -69,25 +70,29 @@ $('#create').click(function(e){
     form.submit(function(e){
         e.preventDefault();
 
-        // var newUser = {
-        //     fullName:  $('#fullname').val(),
-        //     birthday:  $('#birthday').val(),
-        //     profession:  $('#profession').val(),
-        //     address:  $('#address').val(),
-        //     shortInfo:  $('#shortInfo').val(),
-        //     fullInfo:  $('#fullInfo').val()
-        // };
-        // var str = JSON.stringify(newUser);
-        
-        $.post('/user',form.serialize(),function(data){
-            getUsers();
-            console.log(data);
-            $('.users-edit')[0].reset();
-        },'json');
+        var newUser = {
+            fullName:  $('#fullname').val(),
+            birthday:  $('#birthday').val(),
+            profession:  $('#profession').val(),
+            address:    $('#address').val(),
+            shortInfo:  $('#short-info').val(),
+            fullInfo:  $('#full-info').val()
+        };
+        var str = JSON.stringify(newUser);
 
-
+        $.ajax({
+            url:'/user',
+            type:"POST",
+            data:  str,
+            contentType: 'application/json',
+            dataType:"json",
+            success: function(data){
+                $('.users-edit')[0].reset();
+                form.addClass('users-edit-hidden');
+                getUsers();
+              }
+        });
         return false;
-        
     });
 });
 
