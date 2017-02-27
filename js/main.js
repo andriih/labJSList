@@ -10,16 +10,20 @@ var tbl =  $('#users-table'),
     });
 }
 
+function addRow(data){
+     var tr = $("<tr></tr>");
+                    tr.attr('id',data.id);
+                    tbl.append(tr.append('<td>'+data.fullName+'</td>'));
+                    tbl.append(tr.append('<td>'+data.profession+'</td>'));
+                    tbl.append(tr.append('<td>'+data.shortInfo+'</td>'));
+                    tbl.append(tr.append('<td>' +
+                        '<button id="edit">Edit</button> <button id="remove">Remove</button></td>'));
+}
+
 function getUsers (){
         $.get('/user',function(data){
             $.each(data,function(index,value){
-                var tr = $("<tr></tr>");
-                tr.attr('id',value.id);
-                tbl.append(tr.append('<td>'+value.fullName+'</td>'));
-                tbl.append(tr.append('<td>'+value.profession+'</td>'));
-                tbl.append(tr.append('<td>'+value.shortInfo+'</td>'));
-                tbl.append(tr.append('<td>' +
-                    '<button id="edit">Edit</button> <button id="remove">Remove</button></td>'));
+                addRow(value);
             });
         });
 }
@@ -67,10 +71,19 @@ $('#create').click(function(e){
     hidden.attr('id','id');
     $('.users-edit')[0].reset();
     getCountries();
+    
     form.submit(function(e){
         e.preventDefault();
 
-        var newUser = {
+        if( 
+            $('#fullname').val()    !== "" &&
+            $('#birthday').val()    !== "" &&
+            $('#profession').val()  !== "" &&
+            $('#address').val()     !== "" &&
+            $('#short-info').val()  !== "" &&
+            $('#full-info').val()
+        ){
+            var newUser = {
             fullName:  $('#fullname').val(),
             birthday:  $('#birthday').val(),
             profession:  $('#profession').val(),
@@ -87,17 +100,29 @@ $('#create').click(function(e){
             contentType: 'application/json',
             dataType:"json",
             success: function(data){
+                //getUsers();
+                $.get('/user?id='+data.id+'',function(data){
+                    addRow(data);
+                });
+               // console.log('/user?id='+data.id+'');
                 $('.users-edit')[0].reset();
                 form.addClass('users-edit-hidden');
-                getUsers();
               }
         });
+        
         return false;
+
+        }else{
+            alert("Fiel all Fields");
+            return false;
+        }
+
     });
 });
 
 ////////////////////CANCEL botton/////////////
 $('#cancel').click(function(e){
+    getUsers();
     e.preventDefault();
     form.addClass('users-edit-hidden');
 });
