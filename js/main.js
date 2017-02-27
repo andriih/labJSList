@@ -1,7 +1,14 @@
 var tbl =  $('#users-table'),
     form = $('.users-edit'),
     hidden = $('#id');
-
+ 
+ function getCountries(){
+    $.get('/countries',function(data){
+        $.each(data,function(index,value){
+            $('#country').append('<option>'+value+'</option>');
+        });
+    });
+}
 $.get('/user',function(data){
     $.each(data,function(index,value){
         var tr = $("<tr></tr>");
@@ -17,7 +24,6 @@ $.get('/user',function(data){
 tbl.click(function(e){
     //REMOVE
     if(e.target.id === "remove"){
-        //console.log(e.target.parentElement.parentElement.id);
         e.target.parentElement.parentElement.remove();
         $.get('/user',function(){
             $.ajax({
@@ -38,18 +44,36 @@ tbl.click(function(e){
                     $('#address').val(value.address);
                     $('#profession').val(value.profession);
                     ////////////////GET COUNTRIES//////////////
-                    $.get('/countries',function(data){
-                        $.each(data,function(index,value){
-                            $('#country').append('<option>'+value+'</option>');
-                        });
-                    });
+                    getCountries();
+                    
                     $('#short-info').val(value.shortInfo);
                     $('#full-info').val(value.fullInfo);
                 }
             });
         });
     }
+    return false;
 });
+///////////ID - IDentificator/////////////////////////////////
+$('#create').click(function(e){
+    form.removeClass('users-edit-hidden');
+    hidden.attr('id','id');
+    $('.users-edit')[0].reset();
+    getCountries();
+    form.submit(function(e){
+        e.preventDefault();
+    
+        
+        $.post('/user',{ fullname: "John", birthday: "2pm" },function(data){
+            console.log(data);
+            $('.users-edit')[0].reset();
+        });
+
+        return false;
+        
+    });
+});
+
 ////////////////////CANCEL botton/////////////
 $('#cancel').click(function(e){
     e.preventDefault();
